@@ -20,7 +20,7 @@ Unique ID: The column "EventId" is a primary key
 
 * setup environmental parameters;
 %let inputDatasetURL =
-https://github.com/stat6250/team-1_project1/raw/master/AviationAccidentDatabase.csv
+http://filebin.ca/39iVxmQmkSeY/AviationAccidentDatabase.csv
 ;
 
 
