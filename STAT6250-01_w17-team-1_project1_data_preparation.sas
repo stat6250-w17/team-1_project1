@@ -44,9 +44,9 @@ filename Avi_Temp clear;
 
 
 * 
-* Build analytic dataset Avi_Data_Analytic based on Avi_Data file filtering
+* Build analytic dataset AviationAccidentDatabase based on Avi_Data file filtering
 out items which would not be needed for analysis;
-data Avi_Data_Analytic;
+data AviationAccidentDatabase;
     retain
         Air_Carrier
         Aircraft_Category
