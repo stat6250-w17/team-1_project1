@@ -35,6 +35,7 @@ relative file import path to the current directory, if using Windows;
 %setup
 ;
 
+
 *
 Research Question:What proportion of accidents from amateur built aircraft
 resulted in a fatality and how does it compare to non amateur built aircraft?
@@ -63,6 +64,8 @@ proc freq data=AviationAccidentDatabase order=freq;
     tables Injury_Severity;
     where Amateur_Built = "No";
 run;
+
+
 *
 Research Question: What is the porportion of fatal and non-fatal injury 
 severity depending on aircraft damage?
@@ -81,6 +84,7 @@ two variables are related.
 proc freq data=AviationAccidentDatabase order=freq;
     tables Injury_Severity*Aircraft_Damage / norow nocol;
 run;
+
 
 *
 Research Question: What is the frequency distribution of purpose of flight 
