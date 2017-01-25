@@ -12,13 +12,40 @@ in the same directory as this file
 See included file for dataset properties
 ;
 
+
+* environmental setup;
+%let dataPrepFileName = STAT6250-01_w17-team-1_project1_data_preparation.sas;
+%let sasUEFilePrefix = team-1_project1;
+
+* load external file that generates analytic dataset AviationAccidentDatabase
+using a system path dependent on the host operating system, after setting the
+relative file import path to the current directory, if using Windows;
+%macro setup;
+%if
+	&SYSSCP. = WIN
+%then
+	%do;
+		X "cd ""%substr(%sysget(SAS_EXECFILEPATH),1,%eval(%length(%sysget(SAS_EXECFILEPATH))-%length(%sysget(SAS_EXECFILENAME))))""";			
+		%include ".\&dataPrepFileName.";
+	%end;
+%else
+	%do;
+		%include "~/&sasUEFilePrefix./&dataPrepFileName.";
+	%end;
+%mend;
+%setup
+;
+
+
+
 *
 Research Question:What are the makes and models of aircraft that have the high 
 accident or incident rate? 
 
 Rationale: want to know what make and model has bad safety record in general.
 
-Methodology:
+Methodology: Use PROC FREQ to count the frequency of all aircraft by make and model.
+             Next order the output in results by frequency from top to bottom. 
 ;
 
 *
@@ -26,7 +53,8 @@ Research Question: What are the locations that have more accident or incident?
 
 Rationale: want to know where the accident or incident happened more frequently.
 
-Methodology:
+Methodology: Use PROC FREQ to count the frequency of all location.
+             Next order the output in results by frequency from top to bottom.
 ;
 
 *
@@ -36,6 +64,7 @@ engine aircrafts when in accident?
 Rationale: want to know whether multi-engine aircrafts are somewhat safer than 
 single engine aircrafts in general when involved in accident or incident.
 
-Methodology:
-
+Methodology: Sum all total_fatal_injuries and the total observations count for all aircraft with number_of_engines equal to 1, and
+			Sum all total_fatal_injuries and the total observations count for all aircraft with number_of_engines more than 1,
+			calculate the precentage of fatal injuries between those two types of aircraft
 ;
