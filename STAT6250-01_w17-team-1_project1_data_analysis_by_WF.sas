@@ -88,7 +88,11 @@ Methodology: Sum all total_fatal_injuries and the total observations count for a
 proc freq noprint data=AviationAccidentDatabase order=freq;
 proc freq data=AviationAccidentDatabase order=freq;
      tables Number_Of_Engines /out=Engine_rate_temp;
-     Where Number_Of_Engines > 0 AND Injury_Severity <>'Non-Fatal';
+     Where Number_Of_Engines > 0 AND Injury_Severity <>'NON-FATAL';
      
 run;
-
+proc freq data=AviationAccidentDatabase order=freq;
+     tables Number_Of_Engines /out=Engine_rate_temp1;
+     Where Number_Of_Engines > 0;
+     
+run;
