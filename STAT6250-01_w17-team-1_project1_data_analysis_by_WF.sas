@@ -86,13 +86,21 @@ Methodology: Sum all total_fatal_injuries and the total observations count for a
 			Sum all total_fatal_injuries and the total observations count for all aircraft with number_of_engines more than 1,
 			calculate the precentage of fatal injuries between those two types of aircraft
 proc freq noprint data=AviationAccidentDatabase order=freq;
-proc freq data=AviationAccidentDatabase order=freq;
-     tables Number_Of_Engines /out=Engine_rate_temp;
-     Where Number_Of_Engines > 0 AND Injury_Severity <>'NON-FATAL';
-     
-run;
+
 proc freq data=AviationAccidentDatabase order=freq;
      tables Number_Of_Engines /out=Engine_rate_temp1;
      Where Number_Of_Engines > 0;
+     
+run;
+
+proc freq data=AviationAccidentDatabase order=freq;
+     tables Number_Of_Engines /out=Engine_rate_temp;
+     Where Number_Of_Engines > 0 AND Injury_Severity like'FATAL(%';
+     
+run;
+
+proc freq data=AviationAccidentDatabase order=freq;
+     tables Number_Of_Engines /out=Engine_rate_temp;
+     Where Number_Of_Engines > 0 AND Injury_Severity = 'NON-FATAL';
      
 run;
