@@ -39,6 +39,16 @@ proc import
     replace
     ;
 run;
+data Avi_Data1;                                                                                                                                 
+  set Avi_Data;                                                                                                                                
+/* this array groups all the character variables together into one array*/                                                              
+  array vars(*) _character_;                                                                                                            
+  do i=1 to dim(vars);                                                                                                                  
+/*use the UPCASE function to uppercase each value*/                                                                                     
+    vars(i)=upcase(vars(i));                                                                                                            
+  end;                                                                                                                                  
+  drop i;                                                                                                                               
+run; 
 
 filename Avi_Temp clear;
 
@@ -97,5 +107,8 @@ data AviationAccidentDatabase;
 		Total_Uninjured
 		Weather_Condition
     ;
-    set Avi_Data;
+    set Avi_Data1;
+
 run;
+
+
