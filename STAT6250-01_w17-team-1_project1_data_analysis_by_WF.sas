@@ -47,7 +47,16 @@ Rationale: want to know what make and model has bad safety record in general.
 Methodology: Use PROC FREQ to count the frequency of all aircraft by make and model.
              Next order the output in results by frequency from top to bottom. 
 ;
-
+proc freq noprint data=AviationAccidentDatabase order=freq;
+     tables Make * Model /out=make_model_highrate_temp;
+     
+run;
+proc sort data=make_model_highrate_temp;
+	by descending Count;
+run;
+proc print noobs data=make_model_highrate_temp(obs=20);
+	var Make Model Count PERCENT;
+run;
 *
 Research Question: What are the locations that have more accident or incident?
 
@@ -56,7 +65,16 @@ Rationale: want to know where the accident or incident happened more frequently.
 Methodology: Use PROC FREQ to count the frequency of all location.
              Next order the output in results by frequency from top to bottom.
 ;
-
+proc freq noprint data=AviationAccidentDatabase order=freq;
+     tables Location * Country /out=location_highrate_temp;
+     
+run;
+proc sort data=location_highrate_temp;
+	by descending Count;
+run;
+proc print noobs data=location_highrate_temp(obs=20);
+	var Location Country Count PERCENT;
+run;
 *
 Research Question: Do multi-engine aircrafts have less fatalities than single 
 engine aircrafts when in accident?
@@ -67,4 +85,10 @@ single engine aircrafts in general when involved in accident or incident.
 Methodology: Sum all total_fatal_injuries and the total observations count for all aircraft with number_of_engines equal to 1, and
 			Sum all total_fatal_injuries and the total observations count for all aircraft with number_of_engines more than 1,
 			calculate the precentage of fatal injuries between those two types of aircraft
-;
+proc freq noprint data=AviationAccidentDatabase order=freq;
+proc freq data=AviationAccidentDatabase order=freq;
+     tables Number_Of_Engines /out=Engine_rate_temp;
+     Where Number_Of_Engines > 0 AND Injury_Severity <>'Non-Fatal';
+     
+run;
+
