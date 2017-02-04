@@ -69,8 +69,6 @@ data Avi_Data1;
   drop i;                                                                                                                               
 run; 
 
-
-
 * Build analytic dataset AviationAccidentDatabase based on Avi_Data file filtering
 out items which would not be needed for analysis;
 data AviationAccidentDatabase;
