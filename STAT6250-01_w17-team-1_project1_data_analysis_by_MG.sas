@@ -4,11 +4,9 @@
 *
 This file uses the following analytic dataset to identify various factors that
 are associated with aviation accidents in the United States from 1962 to 2017.
-
 Dataset Name: AviationAccidentDatabase created in an external file
 STAT6250-01_w17-team-1_project1_data_preparation.sas, which is assumed to be 
 in the same directory as this file
-
 See included file for dataset properties
 ;
 

@@ -23,6 +23,13 @@ Unique ID: The column "EventId" is a primary key
 http://filebin.ca/39iVxmQmkSeY/AviationAccidentDatabase.csv
 ;
 
+proc format;
+	value $Fatality_bins
+		"NON-FATAL"
+		="NON-FATAL"
+		other
+		="FATAL"
+	;
 
 * load NTSB Aviation Accident Database;
 filename Avi_Temp TEMP;
@@ -61,14 +68,6 @@ data Avi_Data1;
   end;                                                                                                                                  
   drop i;                                                                                                                               
 run; 
-
-proc format;
-	value $Fatality_bins
-		"NON-FATAL"
-		="NON-FATAL"
-		other
-		="FATAL"
-	;
 
 * Build analytic dataset AviationAccidentDatabase based on Avi_Data file filtering
 out items which would not be needed for analysis;
@@ -124,7 +123,4 @@ data AviationAccidentDatabase;
 		Weather_Condition
     ;
     set Avi_Data1;
-
 run;
-
-
