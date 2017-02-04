@@ -36,9 +36,21 @@ proc import
     FILE=Avi_Temp
     OUT=Avi_Data
     DBMS=CSV
-    replace
     ;
 run;
+
+filename Avi_Temp clear;
+
+proc sort 
+	    nodupkey 
+	    data=Avi_Data
+	    out=_null_
+  	;
+	by 
+		Event_Id
+	;
+run;
+
 data Avi_Data1;                                                                                                                                 
   set Avi_Data;                                                                                                                                
 /* this array groups all the character variables together into one array*/                                                              
@@ -50,10 +62,14 @@ data Avi_Data1;
   drop i;                                                                                                                               
 run; 
 
-filename Avi_Temp clear;
+proc format;
+	value $Fatality_bins
+		"NON-FATAL"
+		="NON-FATAL"
+		other
+		="FATAL"
+	;
 
-
-* 
 * Build analytic dataset AviationAccidentDatabase based on Avi_Data file filtering
 out items which would not be needed for analysis;
 data AviationAccidentDatabase;
