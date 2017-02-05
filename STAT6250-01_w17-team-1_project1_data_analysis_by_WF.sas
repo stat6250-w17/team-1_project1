@@ -36,6 +36,16 @@ relative file import path to the current directory, if using Windows;
 %setup
 ;
 
+title1
+"Research Question: What are the makes and models of aircraft that have the high accident or incident rate?"
+;
+title2
+"Rationale: want to know what make and model has bad safety record in general."
+;
+footnote1
+"Based on the above output, Cessna 150/172 and Piper 18/28 are occupying the top 10 spots, which have higher accident rate
+ and are accumulating 11.9% of the total."
+;
 
 
 *
@@ -54,9 +64,24 @@ run;
 proc sort data=make_model_highrate_temp;
 	by descending Count;
 run;
-proc print noobs data=make_model_highrate_temp(obs=20);
+proc print noobs data=make_model_highrate_temp(obs=10);
 	var Make Model Count PERCENT;
+	sum PERCENT;
 run;
+title;
+footnote;
+
+title1
+"Research Question: What are the locations where have more accident or incident?"
+;
+title2
+"Rationale: want to know where the accident or incident happened more frquently."
+;
+footnote1
+"The above output shows the top 20 locations where have more accidet or incident,
+ and they are accumulating 4.9% of the total."
+;
+
 *
 Research Question: What are the locations that have more accident or incident?
 
@@ -74,7 +99,14 @@ proc sort data=location_highrate_temp;
 run;
 proc print noobs data=location_highrate_temp(obs=20);
 	var Location Country Count PERCENT;
+	sum PERCENT;
 run;
+title;
+footnote;
+
+
+
+
 *
 Research Question: Do multi-engine aircrafts have less fatalities than single 
 engine aircrafts when in accident?
@@ -85,22 +117,31 @@ single engine aircrafts in general when involved in accident or incident.
 Methodology: Sum all total_fatal_injuries and the total observations count for all aircraft with number_of_engines equal to 1, and
 			Sum all total_fatal_injuries and the total observations count for all aircraft with number_of_engines more than 1,
 			calculate the precentage of fatal injuries between those two types of aircraft
-proc freq noprint data=AviationAccidentDatabase order=freq;
+proc freq noprint data=AviationAccidentDatbase order=freq;
+
+proc freq data=AviationAccidentDatabase order=freq;
+     tables Number_Of_Engines /out=Engine_rate_temp;
+     Where Number_Of_Engines between 1 and 4;
+     title1
+"Research Question: Do multi-engine aircraft have less fatalities than single engine aircraft
+ when in accident?"
+;
+	title2
+"Rationale: want to know whether multi-engine aircrafts are somewhat safer than 
+single engine aircrafts in general when involved in accident or incident"
+;
+     footnote
+"The above output shows that the single engine aircrafts contributed 85.2% of total accidents."
+;
+run;
+title;
+footnote;
 
 proc freq data=AviationAccidentDatabase order=freq;
      tables Number_Of_Engines /out=Engine_rate_temp1;
-     Where Number_Of_Engines > 0;
-     
+     Where Number_Of_Engines between 1 and 4 AND Injury_Severity like'FATAL(%';
+     footnote "The above output shows that the single aircrafts only contributed 81.5% of the total fatal accidents, 
+     which did not cause more fatalities.";
 run;
-
-proc freq data=AviationAccidentDatabase order=freq;
-     tables Number_Of_Engines /out=Engine_rate_temp;
-     Where Number_Of_Engines > 0 AND Injury_Severity like'FATAL(%';
-     
-run;
-
-proc freq data=AviationAccidentDatabase order=freq;
-     tables Number_Of_Engines /out=Engine_rate_temp;
-     Where Number_Of_Engines > 0 AND Injury_Severity = 'NON-FATAL';
-     
-run;
+title;
+footnote;
