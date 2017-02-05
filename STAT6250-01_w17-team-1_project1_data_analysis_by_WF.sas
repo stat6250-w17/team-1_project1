@@ -140,8 +140,9 @@ footnote;
 proc freq data=AviationAccidentDatabase order=freq;
      tables Number_Of_Engines /out=Engine_rate_temp1;
      Where Number_Of_Engines between 1 and 4 AND Injury_Severity like'FATAL(%';
-     footnote "The above output shows that the single aircrafts only contributed 81.5% of the total fatal accidents, 
+     footnote1 "However, the above output shows that the single aircrafts only contributed 81.5% of the total fatal accidents, 
      which did not cause more fatalities.";
+     footnote2 "Conclusion: the multi-engine aircrafts are not any safer when involved in accident.";
 run;
 title;
-footnote;
+footnote
