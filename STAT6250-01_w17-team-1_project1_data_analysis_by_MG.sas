@@ -7,6 +7,8 @@ are associated with aviation accidents in the United States from 1962 to 2017.
 Dataset Name: AviationAccidentDatabase created in an external file
 STAT6250-01_w17-team-1_project1_data_preparation.sas, which is assumed to be 
 in the same directory as this file
+
+*IL: add line breaks in comment blocks to make them easier to read
 See included file for dataset properties
 ;
 
@@ -20,30 +22,30 @@ relative file import path to the current directory, if using Windows;
 
 %macro setup;
 %if
-	&SYSSCP. = WIN
+    &SYSSCP. = WIN
 %then
-	%do;
-		X "cd ""%substr(%sysget(SAS_EXECFILEPATH),1,%eval(%length(%sysget(SAS_EXECFILEPATH))-%length(%sysget(SAS_EXECFILENAME))))""";			
-		%include ".\&dataPrepFileName.";
-	%end;
+    %do;
+        X "cd ""%substr(%sysget(SAS_EXECFILEPATH),1,%eval(%length(%sysget(SAS_EXECFILEPATH))-%length(%sysget(SAS_EXECFILENAME))))""";           
+        %include ".\&dataPrepFileName.";
+    %end;
 %else
-	%do;
-		%include "~/&sasUEFilePrefix./&dataPrepFileName.";
-	%end;
+    %do;
+        %include "~/&sasUEFilePrefix./&dataPrepFileName.";
+    %end;
 %mend;
 %setup
 ;
 
-
+*IL: consider moving methodology to after the titles/footnotes;
 *
 Methodology: Create a PROC FREQ on TABLE = Injury_Severity and Amateur_Built. 
 Compare the column percentages of non-amateur to amateur aircraft that resulted 
 in non-fatal accidents.
 ;
-	
-title1 "Research Question:What proportion of accidents from amateur built 
-aircraft resulted in a fatality and how does it compare to non amateur 
-built aircraft?";
+*IL: don't wrap string literals and watch out for typos;
+title1
+"Research Question: What proportion of accidents from amateur built aircraft resulted in a fatality and how does it compare to non amateur built aircraft?"
+;
 
 title2 "Rationale: This will help identify if amateur built aircraft need 
 additional safe guards or regulations in an attempt to reduce fatalities.";
@@ -55,8 +57,8 @@ footnote2 "Note: A possible follow up would be to perform a two sample t-test
 to determine if the difference is meaningful.";
 
 proc freq data=AviationAccidentDatabase order=freq;
-	tables Injury_Severity*Amateur_Built;
-	format Injury_Severity $Fatality_bins.;
+    tables Injury_Severity*Amateur_Built;
+    format Injury_Severity $Fatality_bins.;
 run;
 title;
 footnote;
