@@ -22,16 +22,16 @@ using a system path dependent on the host operating system, after setting the
 relative file import path to the current directory, if using Windows;
 %macro setup;
 %if
-	&SYSSCP. = WIN
+    &SYSSCP. = WIN
 %then
-	%do;
-		X "cd ""%substr(%sysget(SAS_EXECFILEPATH),1,%eval(%length(%sysget(SAS_EXECFILEPATH))-%length(%sysget(SAS_EXECFILENAME))))""";			
-		%include ".\&dataPrepFileName.";
-	%end;
+    %do;
+        X "cd ""%substr(%sysget(SAS_EXECFILEPATH),1,%eval(%length(%sysget(SAS_EXECFILEPATH))-%length(%sysget(SAS_EXECFILENAME))))""";           
+        %include ".\&dataPrepFileName.";
+    %end;
 %else
-	%do;
-		%include "~/&sasUEFilePrefix./&dataPrepFileName.";
-	%end;
+    %do;
+        %include "~/&sasUEFilePrefix./&dataPrepFileName.";
+    %end;
 %mend;
 %setup
 ;
@@ -42,14 +42,16 @@ title1
 title2
 "Rationale: want to know what make and model has bad safety record in general."
 ;
+*IL: don't wrap string literals;
+*IL: consider adding explanation to contextualize results and give a "why?";
 footnote1
-"Based on the above output, Cessna 150/172 and Piper 18/28 are occupying the top 10 spots, which have higher accident rate
- and are accumulating 11.9% of the total."
+"Based on the above output, Cessna 150/172 and Piper 18/28 are occupying the top 10 spots, which have higher accident rate and are accumulating 11.9% of the total."
 ;
 
-
+*IL: wrap code and comment blocks at 80 characters;
+*IL: be careful with formatting in comment blocks;
 *
-Research Question:What are the makes and models of aircraft that have the high 
+Research Question: What are the makes and models of aircraft that have the high 
 accident or incident rate? 
 
 Rationale: want to know what make and model has bad safety record in general.
@@ -62,11 +64,11 @@ proc freq noprint data=AviationAccidentDatabase order=freq;
      
 run;
 proc sort data=make_model_highrate_temp;
-	by descending Count;
+    by descending Count;
 run;
 proc print noobs data=make_model_highrate_temp(obs=10);
-	var Make Model Count PERCENT;
-	sum PERCENT;
+    var Make Model Count PERCENT;
+    sum PERCENT;
 run;
 title;
 footnote;
@@ -95,11 +97,11 @@ proc freq noprint data=AviationAccidentDatabase order=freq;
      
 run;
 proc sort data=location_highrate_temp;
-	by descending Count;
+    by descending Count;
 run;
 proc print noobs data=location_highrate_temp(obs=20);
-	var Location Country Count PERCENT;
-	sum PERCENT;
+    var Location Country Count PERCENT;
+    sum PERCENT;
 run;
 title;
 footnote;
@@ -115,10 +117,16 @@ Rationale: want to know whether multi-engine aircrafts are somewhat safer than
 single engine aircrafts in general when involved in accident or incident.
 
 Methodology: Sum all total_fatal_injuries and the total observations count for all aircraft with number_of_engines equal to 1, and
-			Sum all total_fatal_injuries and the total observations count for all aircraft with number_of_engines more than 1,
-			calculate the precentage of fatal injuries between those two types of aircraft
+            Sum all total_fatal_injuries and the total observations count for all aircraft with number_of_engines more than 1,
+            calculate the precentage of fatal injuries between those two types of aircraft
 proc freq noprint data=AviationAccidentDatbase order=freq;
 
+*IL: consider removing commented out code from a final code file;
+*IL: consider combining the proc freq steps to create cross-tab;
+*IL: be consistent with capitalization;
+*IL: don't embed titles/footnotes in proc step since they're global, no matter
+     where they are;
+*IL: don't create output datasets unless you're planning to use;
 proc freq data=AviationAccidentDatabase order=freq;
      tables Number_Of_Engines /out=Engine_rate_temp;
      Where Number_Of_Engines between 1 and 4;
@@ -126,7 +134,7 @@ proc freq data=AviationAccidentDatabase order=freq;
 "Research Question: Do multi-engine aircraft have less fatalities than single engine aircraft
  when in accident?"
 ;
-	title2
+    title2
 "Rationale: want to know whether multi-engine aircrafts are somewhat safer than 
 single engine aircrafts in general when involved in accident or incident"
 ;
